@@ -11,7 +11,7 @@ Esta aplicación permite gestionar vehículos mediante un CRUD completo (Crear, 
 
 Estas instrucciones te permitirán obtener una copia del proyecto funcionando en tu máquina local para propósitos de desarrollo y pruebas. Consulta la sección de Deployment para información sobre la puesta en producción.
 
-### Prerequisites
+## Prerequisites
 
 Requisitos necesarios para ejecutar el software y las herramientas relacionadas:
 
@@ -23,7 +23,7 @@ Ionic CLI
 
 Angular CLI
 
-### Installing
+## Installing
 
 
 A continuación se detallan los pasos para configurar el entorno de desarrollo.
