@@ -14,8 +14,11 @@ module.exports = (sequelize, Sequelize) => {
 
     anio: {
       type: Sequelize.STRING
-    }
+    },
 
+    filename: {
+       type: Sequelize.STRING
+    }
 
   });
 

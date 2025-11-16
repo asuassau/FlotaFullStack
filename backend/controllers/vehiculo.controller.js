@@ -16,7 +16,8 @@ const vehiculo = {
     matricula: req.body.matricula,
     marca: req.body.marca,
     modelo: req.body.modelo,
-    anio: req.body.anio
+    anio: req.body.anio,
+    filename: req.file ? req.file.filename : ""
   };
 
  Vehiculo.create(vehiculo)

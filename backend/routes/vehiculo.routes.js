@@ -1,10 +1,13 @@
 module.exports = app => {
   const vehiculos = require("../controllers/vehiculo.controller.js");
+  var upload = require('../multer/upload');
+
 
   var router = require("express").Router();
 
   // Create a new Vehiculo
-  router.post("/", vehiculos.create);
+  router.post("/", upload.single('file'), vehiculos.create);
+  //router.post("/", vehiculos.create);
 
   // Retrieve all Vehiculo
   router.get("/", vehiculos.findAll);
