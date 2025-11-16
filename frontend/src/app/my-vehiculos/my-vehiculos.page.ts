@@ -31,17 +31,15 @@ export class MyVehiculosPage implements OnInit {
     });
 
   }
-
   gotoUpdateVehiculos(id: any) {
 
     this.router.navigateByUrl(`/vehiculo-form/${id}`);
   }
   gotoEraserVehiculos(id: any) {
 
-    this.vehiculoService.delete(id).subscribe(response => { })
-
-    this.getAllVehiculos();
-
+    this.vehiculoService.delete(id).subscribe(() => {
+      this.getAllVehiculos();
+    });
   }
 
 

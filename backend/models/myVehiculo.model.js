@@ -1,11 +1,22 @@
 module.exports = (sequelize, Sequelize) => {
   const Vehiculo = sequelize.define("vehiculo", {
-    brand: {
+
+    matricula: {
       type: Sequelize.STRING
     },
-    model: {
+    
+    marca: {
+      type: Sequelize.STRING
+    },
+    modelo: {
+      type: Sequelize.STRING
+    },
+
+    anio: {
       type: Sequelize.STRING
     }
+
+
   });
 
   return Vehiculo;

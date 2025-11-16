@@ -5,16 +5,18 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Vehiculo
 exports.create = (req, res) => {
 
-      if (!req.body.brand) {
+      if (!req.body.matricula) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "No puede estar vacío"
     });
     return;
 }
 
 const vehiculo = {
-    brand: req.body.brand,
-    model: req.body.model
+    matricula: req.body.matricula,
+    marca: req.body.marca,
+    modelo: req.body.modelo,
+    anio: req.body.anio
   };
 
  Vehiculo.create(vehiculo)
@@ -24,7 +26,7 @@ const vehiculo = {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the vehiculos."
+          err.message || "El vehículo no se ha creado correctamente."
       });
     });
 };
@@ -39,7 +41,7 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving vehiculos."
+          err.message || "Ha ocurrido un error y no es posible mostrar la flota"
       });
     });
 };
@@ -54,13 +56,13 @@ exports.findOne = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Vehiculo with id=${id} not found.`
+          message: `No se ha podido localizar el vehículo con  id=${id} .`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Vehiculo with id= " + id
+        message: "Error al obtner el vehículo con id= " + id
       });
     });
 
@@ -76,17 +78,17 @@ exports.update = (req, res) =>  {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Vehículo was updated successfully."
+          message: "El vehículo se ha actulizado correctamente"
         });
       } else {
         res.send({
-          message: `Cannot update Vehiculo with id=${id}. Maybe Vehículo was not found or req.body is empty!`
+          message: `No ha sido posible actulizar el vehículo con  id=${id}. Es posible que no se encuentre o que haya algún campo vacío `
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Vehículo with id=" + id
+        message: "Error actualizando el vehículos con id=" + id
       });
     });
 };
@@ -101,17 +103,17 @@ exports.delete = (req, res) =>  {
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Vehículo was deleted successfully!"
+          message: "El vehículos se ha eliminado correctamente!"
         });
       } else {
         res.send({
-          message: `Cannot delete Vehículo with id=${id}. Maybe Vehículo was not found!`
+          message: `No ha sido posible eliminar el vehículo con id=${id}. Es posible que no se encuentre!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Vehiculo with id=" + id
+        message: "No ha sido posible eliminar el vehículo con id=" + id
       });
     });
 };

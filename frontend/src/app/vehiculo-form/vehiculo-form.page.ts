@@ -25,8 +25,10 @@ export class VehiculoFormPage implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.vehiculoForm = this.formBuilder.group({
-      brand: ['', Validators.compose([Validators.required])],
-      model: ['', Validators.compose([Validators.required])]
+      matricula: ['', Validators.compose([Validators.required])],
+      marca: ['', Validators.compose([Validators.required])],
+      modelo: ['', Validators.compose([Validators.required])],
+      anio: ['', Validators.compose([Validators.required])]
     });
   }
 
@@ -39,15 +41,17 @@ const param = this.activatedRoute.snapshot.paramMap.get('id');
       this.cargarVehiculo(this.id);
     }
 
-
+    
   }
 
    cargarVehiculo(id: number) {
     this.vehiculoService.getById(id).subscribe((vehiculo: any) => {
       // Rellenar el formulario con los datos existentes
       this.vehiculoForm.patchValue({
-        brand: vehiculo.brand,
-        model: vehiculo.model
+        matricula: vehiculo.matricula,
+        marca: vehiculo.marca,
+        modelo: vehiculo.modelo,
+        anio: vehiculo.anio,
       });
     });
   }

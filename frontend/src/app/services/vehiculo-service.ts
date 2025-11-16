@@ -18,8 +18,10 @@ export class VehiculoService {
   });
 
   const body = new URLSearchParams();
-  body.append("brand", vehiculo.brand);
-  body.append("model", vehiculo.model);
+  body.append("matricula", vehiculo.matricula);
+  body.append("marca", vehiculo.marca);
+  body.append("modelo", vehiculo.modelo);
+  body.append("anio", vehiculo.anio);
 
   return this.httpClient.post(this.endpoint, body.toString(), { headers });
 }
