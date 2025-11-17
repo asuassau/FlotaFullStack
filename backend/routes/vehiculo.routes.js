@@ -6,7 +6,7 @@ module.exports = app => {
   var router = require("express").Router();
 
   // Create a new Vehiculo
-  router.post("/", upload.single('file'), vehiculos.create);
+  router.post("/", upload.single('file'),vehiculos.create);
   //router.post("/", vehiculos.create);
 
   // Retrieve all Vehiculo
@@ -16,7 +16,7 @@ module.exports = app => {
   router.get("/:id", vehiculos.findOne);
 
   // Update a Vehiculo with id
-  router.put("/:id", vehiculos.update);
+  router.put("/:id", upload.single('file'), vehiculos.update);
 
   // Delete a Vehiculo with id
   router.delete("/:id", vehiculos.delete);

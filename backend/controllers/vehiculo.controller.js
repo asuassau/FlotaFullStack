@@ -73,7 +73,19 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) =>  {
   const id = req.params.id;
 
-  Vehiculo.update(req.body, {
+  const data = {
+    matricula: req.body.matricula,
+    marca: req.body.marca,
+    modelo: req.body.modelo,
+    anio: req.body.anio
+  };
+
+  if (req.file) {
+    data.filename = req.file.filename;
+  }
+
+
+  Vehiculo.update(data, {
     where: { id: id }
   })
     .then(num => {

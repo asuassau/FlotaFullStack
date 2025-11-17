@@ -12,15 +12,20 @@ export class MyVehiculosPage implements OnInit {
 
 
   Vehiculos: any = []
+  
 
-  constructor(private vehiculoService: VehiculoService, private router: Router) { }
+  constructor(
+    private vehiculoService: VehiculoService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getAllVehiculos();
   }
 
   ionViewWillEnter() {
+    
     this.getAllVehiculos();
+
   }
 
   getAllVehiculos() {
@@ -29,8 +34,12 @@ export class MyVehiculosPage implements OnInit {
       this.Vehiculos = response;
 
     });
-
   }
+
+  addVehiculo() {
+    this.router.navigateByUrl("/vehiculo-form");
+  }
+
   gotoUpdateVehiculos(id: any) {
 
     this.router.navigateByUrl(`/vehiculo-form/${id}`);

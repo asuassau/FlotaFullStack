@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { VehiculoService } from '../services/vehiculo-service';
 import { FormGroup,Validators,FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PhotoService } from '../services/photo-service';
+
 
 @Component({
   selector: 'app-vehiculo-form',
@@ -13,6 +15,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class VehiculoFormPage implements OnInit {
 
   vehiculoForm: FormGroup;
+  capturedPhoto: string = "";
+  isSubmitted: boolean = false;
 
   id?: number;          // si existe → editar, si no existe → crear
   isEdit = false;
@@ -22,7 +26,8 @@ export class VehiculoFormPage implements OnInit {
     public formBuilder: FormBuilder,
     private vehiculoService: VehiculoService,
     private route: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private photoService: PhotoService,
   ) {
     this.vehiculoForm = this.formBuilder.group({
       matricula: ['', Validators.compose([Validators.required])],
@@ -44,33 +49,49 @@ const param = this.activatedRoute.snapshot.paramMap.get('id');
     
   }
 
+   ionViewWillEnter() {
+  }
+
+
    cargarVehiculo(id: number) {
     this.vehiculoService.getById(id).subscribe((vehiculo: any) => {
-      // Rellenar el formulario con los datos existentes
       this.vehiculoForm.patchValue({
         matricula: vehiculo.matricula,
         marca: vehiculo.marca,
         modelo: vehiculo.modelo,
         anio: vehiculo.anio,
       });
+
+      this.capturedPhoto = 'http://localhost:8080/images/' + vehiculo.filename;
     });
   }
 
-guardar() {
+async guardar() {
+    this.isSubmitted = true;
+
     if (this.vehiculoForm.invalid) {
       this.vehiculoForm.markAllAsTouched();
       return;
     }
 
+    let blob: Blob | null = null;
+
+    if (this.capturedPhoto) {
+      const response = await fetch(this.capturedPhoto);
+      blob = await response.blob();
+    }
+
+    const data = this.vehiculoForm.value;
+
     if (this.isEdit && this.id != null) {
-      // MODO EDITAR → PUT
-      this.vehiculoService.update(this.id, this.vehiculoForm.value).subscribe(() => {
-      this.route.navigateByUrl('/my-vehiculos');
+      // MODO EDITAR → PUT (envío también blob, si existe)
+      this.vehiculoService.update(this.id, data, blob ?? undefined).subscribe(() => {
+        this.route.navigateByUrl('/my-vehiculos');
       });
     } else {
       // MODO CREAR → POST
-      this.vehiculoService.create(this.vehiculoForm.value).subscribe(() => {
-      this.route.navigateByUrl('/my-vehiculos');
+      this.vehiculoService.create(data, blob ?? undefined).subscribe(() => {
+        this.route.navigateByUrl('/my-vehiculos');
       });
     }
   }
@@ -78,4 +99,29 @@ guardar() {
   getFormControl(field: string) {
     return this.vehiculoForm.get(field);
   }
-}
+
+
+   takePhoto() {
+
+    this.photoService.takePhoto().then(data => {
+    this.capturedPhoto = data.webPath ? data.webPath : "";
+    });
+  }
+
+  pickImage() {
+
+    this.photoService.pickImage().then(data => {
+      this.capturedPhoto = data.webPath;
+    });
+  }
+
+  discardImage() {
+
+    this.capturedPhoto = "";
+  }
+
+
+    
+  }
+
+
