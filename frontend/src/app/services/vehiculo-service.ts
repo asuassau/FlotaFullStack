@@ -45,7 +45,6 @@ update(id: any, vehiculo: any, file?: Blob) {
     return this.httpClient.put(`${this.endpoint}/${id}`, formData);
   }
 
-
   getById(id: any) {
     return this.httpClient.get(`${this.endpoint}/${id}`);
   }
