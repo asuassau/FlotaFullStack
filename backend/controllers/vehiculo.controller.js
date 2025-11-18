@@ -77,11 +77,13 @@ exports.update = (req, res) =>  {
     matricula: req.body.matricula,
     marca: req.body.marca,
     modelo: req.body.modelo,
-    anio: req.body.anio
+    anio: req.body.anio,
   };
 
   if (req.file) {
-    data.filename = req.file.filename;
+   data.filename = req.file.filename
+  }else {
+   data.filename=""
   }
 
 

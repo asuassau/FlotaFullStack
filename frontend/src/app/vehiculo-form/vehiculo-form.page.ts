@@ -61,8 +61,9 @@ const param = this.activatedRoute.snapshot.paramMap.get('id');
         modelo: vehiculo.modelo,
         anio: vehiculo.anio,
       });
-
+      if (vehiculo.filename){
       this.capturedPhoto = 'http://localhost:8080/images/' + vehiculo.filename;
+      }
     });
   }
 

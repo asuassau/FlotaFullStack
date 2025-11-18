@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class VehiculoService {
 
     if (file) {
       // 'file' es el mismo nombre que usas en upload.single('file')
-      formData.append('file', file, 'vehiculo.jpg');
+      formData.append('file', file);
     }
 
     return this.httpClient.post(this.endpoint, formData);
@@ -39,7 +39,7 @@ update(id: any, vehiculo: any, file?: Blob) {
     formData.append('anio', vehiculo.anio);
 
     if (file) {
-      formData.append('file', file, 'vehiculo.jpg');
+      formData.append('file', file);
     }
 
     return this.httpClient.put(`${this.endpoint}/${id}`, formData);
