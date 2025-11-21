@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VehiculoService } from '../services/vehiculo-service';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-my-vehiculos',
@@ -16,9 +17,11 @@ export class MyVehiculosPage implements OnInit {
 
   constructor(
     private vehiculoService: VehiculoService,
-    private router: Router) { }
+    private router: Router,
+    private storage: Storage) { }
 
   ngOnInit() {
+
     this.getAllVehiculos();
   }
 
@@ -28,9 +31,11 @@ export class MyVehiculosPage implements OnInit {
 
   }
 
-  getAllVehiculos() {
+  async getAllVehiculos() {
 
-    this.vehiculoService.getVehiculos().subscribe(response => {
+    const token = await this.storage.get('token');
+
+    this.vehiculoService.getVehiculos(token).subscribe(response => {
       this.Vehiculos = response;
 
     });
@@ -44,9 +49,11 @@ export class MyVehiculosPage implements OnInit {
 
     this.router.navigateByUrl(`/vehiculo-form/${id}`);
   }
-  gotoEraserVehiculos(id: any) {
+  async gotoEraserVehiculos(id: any) {
 
-    this.vehiculoService.delete(id).subscribe(() => {
+    const token = await this.storage.get('token');
+
+    this.vehiculoService.delete(id,token).subscribe(() => {
       this.getAllVehiculos();
     });
   }

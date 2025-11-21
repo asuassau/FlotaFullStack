@@ -9,9 +9,6 @@ import{Router} from '@angular/router';
 })
 export class HomePage {
 
-  brand:string="BH";
-  model:string = "star";
-
   constructor(private router:Router) {}
 
   gotoMyVehiculos(){

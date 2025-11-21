@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { VehiculoService } from '../services/vehiculo-service';
-import { FormGroup,Validators,FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PhotoService } from '../services/photo-service';
+import { Storage } from '@ionic/storage-angular'
+
+
 
 
 @Component({
@@ -20,14 +23,16 @@ export class VehiculoFormPage implements OnInit {
 
   id?: number;          // si existe → editar, si no existe → crear
   isEdit = false;
-  
 
- constructor(
+
+  constructor(
     public formBuilder: FormBuilder,
     private vehiculoService: VehiculoService,
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private photoService: PhotoService,
+    private storage: Storage
+
   ) {
     this.vehiculoForm = this.formBuilder.group({
       matricula: ['', Validators.compose([Validators.required])],
@@ -37,37 +42,46 @@ export class VehiculoFormPage implements OnInit {
     });
   }
 
-  ngOnInit() { 
+  ngOnInit() {
 
-const param = this.activatedRoute.snapshot.paramMap.get('id');
+
+
+    const param = this.activatedRoute.snapshot.paramMap.get('id');
     if (param) {
       this.id = Number(param);
       this.isEdit = true;
       this.cargarVehiculo(this.id);
     }
 
-    
+
   }
 
-   ionViewWillEnter() {
+  ionViewWillEnter() {
   }
 
 
-   cargarVehiculo(id: number) {
-    this.vehiculoService.getById(id).subscribe((vehiculo: any) => {
+
+  async cargarVehiculo(id: number) {
+
+    const token = await this.storage.get('token');
+
+    this.vehiculoService.getById(id,token).subscribe((vehiculo: any) => {
       this.vehiculoForm.patchValue({
         matricula: vehiculo.matricula,
         marca: vehiculo.marca,
         modelo: vehiculo.modelo,
         anio: vehiculo.anio,
       });
-      if (vehiculo.filename){
-      this.capturedPhoto = 'http://localhost:8080/images/' + vehiculo.filename;
+      if (vehiculo.filename) {
+        this.capturedPhoto = 'http://localhost:8080/images/' + vehiculo.filename;
       }
     });
   }
 
-async guardar() {
+  async guardar() {
+
+    const token = await this.storage.get('token');
+
     this.isSubmitted = true;
 
     if (this.vehiculoForm.invalid) {
@@ -86,12 +100,12 @@ async guardar() {
 
     if (this.isEdit && this.id != null) {
       // MODO EDITAR → PUT (envío también blob, si existe)
-      this.vehiculoService.update(this.id, data, blob ?? undefined).subscribe(() => {
+      this.vehiculoService.update(this.id, data, blob ?? undefined,token).subscribe(() => {
         this.route.navigateByUrl('/my-vehiculos');
       });
     } else {
       // MODO CREAR → POST
-      this.vehiculoService.create(data, blob ?? undefined).subscribe(() => {
+      this.vehiculoService.create(data, blob ?? undefined,token).subscribe(() => {
         this.route.navigateByUrl('/my-vehiculos');
       });
     }
@@ -102,10 +116,10 @@ async guardar() {
   }
 
 
-   takePhoto() {
+  takePhoto() {
 
     this.photoService.takePhoto().then(data => {
-    this.capturedPhoto = data.webPath ? data.webPath : "";
+      this.capturedPhoto = data.webPath ? data.webPath : "";
     });
   }
 
@@ -122,7 +136,7 @@ async guardar() {
   }
 
 
-    
-  }
+
+}
 
 

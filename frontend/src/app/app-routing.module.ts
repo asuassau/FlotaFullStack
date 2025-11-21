@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -24,7 +24,11 @@ const routes: Routes = [
   path: 'vehiculo-form/:id',
   loadChildren: () => import('./vehiculo-form/vehiculo-form.module')
     .then(m => m.VehiculoFormPageModule)
-}
+},
+  {
+    path: 'login',
+    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+  }
 
 ];
 

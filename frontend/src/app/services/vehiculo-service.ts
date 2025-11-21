@@ -7,12 +7,33 @@ import { HttpClient } from '@angular/common/http';
 export class VehiculoService {
   endpoint = 'http://localhost:8080/api/vehiculos';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
 
-  getVehiculos() {
-    return this.httpClient.get(this.endpoint)
+
+    
   }
-  create(vehiculo: any, file?: Blob) {
+
+  // === Nuevo método para las opciones con token ===
+  private getOptions(token: string) {
+    const bearerAccess = 'Bearer ' + token;
+
+    const options = {
+      headers: {
+        'Authorization': bearerAccess,
+      }
+    };
+
+    return options;
+  }
+
+  // === Métodos adaptados ===
+
+  getVehiculos(token: string) {
+    const options = this.getOptions(token);
+    return this.httpClient.get(this.endpoint, options);
+  }
+
+  create(vehiculo: any, file?: Blob, token?: string) {
     const formData = new FormData();
     formData.append('matricula', vehiculo.matricula);
     formData.append('marca', vehiculo.marca);
@@ -20,18 +41,19 @@ export class VehiculoService {
     formData.append('anio', vehiculo.anio);
 
     if (file) {
-      // 'file' es el mismo nombre que usas en upload.single('file')
       formData.append('file', file);
     }
 
-    return this.httpClient.post(this.endpoint, formData);
-  }
-  delete(id: any) {
-
-    return this.httpClient.delete(`${this.endpoint}/${id}`);
+    const options = token ? this.getOptions(token) : {};
+    return this.httpClient.post(this.endpoint, formData, options);
   }
 
-update(id: any, vehiculo: any, file?: Blob) {
+  delete(id: any, token: string) {
+    const options = this.getOptions(token);
+    return this.httpClient.delete(`${this.endpoint}/${id}`, options);
+  }
+
+  update(id: any, vehiculo: any, file?: Blob, token?: string) {
     const formData = new FormData();
     formData.append('matricula', vehiculo.matricula);
     formData.append('marca', vehiculo.marca);
@@ -42,11 +64,12 @@ update(id: any, vehiculo: any, file?: Blob) {
       formData.append('file', file);
     }
 
-    return this.httpClient.put(`${this.endpoint}/${id}`, formData);
+    const options = token ? this.getOptions(token) : {};
+    return this.httpClient.put(`${this.endpoint}/${id}`, formData, options);
   }
 
-  getById(id: any) {
-    return this.httpClient.get(`${this.endpoint}/${id}`);
+  getById(id: any, token: string) {
+    const options = this.getOptions(token);
+    return this.httpClient.get(`${this.endpoint}/${id}`, options);
   }
-
 }
