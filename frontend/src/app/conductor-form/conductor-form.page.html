@@ -1,12 +1,12 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Ficha de Vehículo</ion-title>
+    <ion-title>Ficha de Conductor</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Formulario de vehículo</ion-title>
+      <ion-title size="large">Ficha de Conductor</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -36,36 +36,42 @@
 
 
 
-  <form [formGroup]="vehiculoForm" (ngSubmit)="guardar()">
+  <form [formGroup]="conductorForm" (ngSubmit)="guardar()">
 
     <ion-item>
-      <ion-label position="floating">Matricula</ion-label>
-      <ion-input formControlName="matricula" type="text"></ion-input>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="name" type="text"></ion-input>
     </ion-item>
-    <ion-note color="danger" *ngIf="getFormControl('matricula')?.hasError('required') && getFormControl('matricula')?.touched">
-      La matrícula es obligatoria
+    <ion-note color="danger" *ngIf="getFormControl('name')?.hasError('required') && getFormControl('name')?.touched">
+      La usuario es obligatorio
     </ion-note>
 
     <ion-item>
-      <ion-label position="floating">Marca</ion-label>
-      <ion-input formControlName="marca" type="text"></ion-input>
+      <ion-label position="floating">Apellidos</ion-label>
+      <ion-input formControlName="surname" type="text"></ion-input>
     </ion-item>
 
 
     <ion-item>
-      <ion-label position="floating">Modelo</ion-label>
-      <ion-input formControlName="modelo" type="text"></ion-input>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input formControlName="username" type="text"></ion-input>
     </ion-item>
 
 
     <ion-item>
-      <ion-label position="floating">Año</ion-label>
-      <ion-input formControlName="anio" type="text"></ion-input>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName="password" type="text"></ion-input>
     </ion-item>
 
+
+    
+    <ion-item>
+      <ion-label position="floating">Administrador</ion-label>
+      <ion-input formControlName="isAdmin" type="text"></ion-input>
+    </ion-item>
 
     <!-- Botón de Enviar -->
-    <ion-button expand="full" type="submit" [disabled]="!vehiculoForm.valid">Guardar</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="!conductorForm.valid">Guardar</ion-button>
 
   </form>
 

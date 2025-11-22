@@ -11,7 +11,14 @@ module.exports = (sequelize, Sequelize) => {
     },
     isAdmin: {
       type: Sequelize.BOOLEAN
+    },
+    surname: {
+      type: Sequelize.STRING
+    },
+    filename: {
+      type: Sequelize.STRING
     }
+
   });
 
   return User;

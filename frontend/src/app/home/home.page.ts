@@ -18,4 +18,8 @@ export class HomePage {
     this.router.navigateByUrl("/vehiculo-form");
 
   }
+   gotoConductores(){
+    this.router.navigateByUrl("/conductores");
+
+  }
 }

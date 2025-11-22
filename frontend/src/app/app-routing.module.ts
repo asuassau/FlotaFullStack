@@ -28,6 +28,15 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'conductores',
+    loadChildren: () => import('./conductores/conductores.module').then( m => m.ConductoresPageModule)
+  },
+
+  {
+    path: 'conductor-form',
+    loadChildren: () => import('./conductor-form/conductor-form.module').then( m => m.ConductorFormPageModule)
   }
 
 ];
