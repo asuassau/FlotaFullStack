@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PhotoService } from '../services/photo-service';
 import { Storage } from '@ionic/storage-angular'
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-conductor-form',
@@ -28,7 +29,8 @@ export class ConductorFormPage implements OnInit {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private photoService: PhotoService,
-    private storage: Storage
+    private storage: Storage,
+    private location: Location
 
   ) {
     this.conductorForm = this.formBuilder.group({
@@ -54,11 +56,15 @@ export class ConductorFormPage implements OnInit {
   ionViewWillEnter() {
   }
 
+  goBack() {
+    this.location.back();
+  }
+
   async cargarConductor(id: number) {
 
     const token = await this.storage.get('token');
 
-    this.conductorService.getById(id,token).subscribe((conductor: any) => {
+    this.conductorService.getById(id, token).subscribe((conductor: any) => {
       this.conductorForm.patchValue({
         username: conductor.username,
         password: conductor.password,
@@ -94,12 +100,12 @@ export class ConductorFormPage implements OnInit {
 
     if (this.isEdit && this.id != null) {
       // MODO EDITAR → PUT (envío también blob, si existe)
-      this.conductorService.update(this.id, data, blob ?? undefined,token).subscribe(() => {
+      this.conductorService.update(this.id, data, blob ?? undefined, token).subscribe(() => {
         this.route.navigateByUrl('/conductores');
       });
     } else {
       // MODO CREAR → POST
-      this.conductorService.create(data, blob ?? undefined,token).subscribe(() => {
+      this.conductorService.create(data, blob ?? undefined, token).subscribe(() => {
         this.route.navigateByUrl('/conductores');
       });
     }

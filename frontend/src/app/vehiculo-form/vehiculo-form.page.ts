@@ -3,7 +3,9 @@ import { VehiculoService } from '../services/vehiculo-service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PhotoService } from '../services/photo-service';
-import { Storage } from '@ionic/storage-angular'
+import { Storage } from '@ionic/storage-angular';
+import { Location } from '@angular/common';
+
 
 
 
@@ -31,7 +33,8 @@ export class VehiculoFormPage implements OnInit {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private photoService: PhotoService,
-    private storage: Storage
+    private storage: Storage,
+    private location: Location
 
   ) {
     this.vehiculoForm = this.formBuilder.group({
@@ -59,13 +62,15 @@ export class VehiculoFormPage implements OnInit {
   ionViewWillEnter() {
   }
 
-
+  goBack() {
+    this.location.back();
+  }
 
   async cargarVehiculo(id: number) {
 
     const token = await this.storage.get('token');
 
-    this.vehiculoService.getById(id,token).subscribe((vehiculo: any) => {
+    this.vehiculoService.getById(id, token).subscribe((vehiculo: any) => {
       this.vehiculoForm.patchValue({
         matricula: vehiculo.matricula,
         marca: vehiculo.marca,
@@ -100,12 +105,12 @@ export class VehiculoFormPage implements OnInit {
 
     if (this.isEdit && this.id != null) {
       // MODO EDITAR → PUT (envío también blob, si existe)
-      this.vehiculoService.update(this.id, data, blob ?? undefined,token).subscribe(() => {
+      this.vehiculoService.update(this.id, data, blob ?? undefined, token).subscribe(() => {
         this.route.navigateByUrl('/my-vehiculos');
       });
     } else {
       // MODO CREAR → POST
-      this.vehiculoService.create(data, blob ?? undefined,token).subscribe(() => {
+      this.vehiculoService.create(data, blob ?? undefined, token).subscribe(() => {
         this.route.navigateByUrl('/my-vehiculos');
       });
     }

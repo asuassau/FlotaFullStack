@@ -1,6 +1,12 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Ficha de Conductor</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -10,7 +16,7 @@
     </ion-toolbar>
   </ion-header>
 
- <ion-grid>
+  <ion-grid>
     <ion-row class="ion-align-items-center">
       <ion-col size="6">
         <ion-img class="photo-frame" *ngIf="capturedPhoto" [src]="capturedPhoto" (click)="takePhoto()"></ion-img>
@@ -64,7 +70,7 @@
     </ion-item>
 
 
-    
+
     <ion-item>
       <ion-label position="floating">Administrador</ion-label>
       <ion-input formControlName="isAdmin" type="text"></ion-input>
