@@ -82,9 +82,9 @@ exports.update = (req, res) =>  {
 
   if (req.file) {
    data.filename = req.file.filename
-  }else {
+  }/*else {
    data.filename=""
-  }
+  }*/
 
 
   Vehiculo.update(data, {

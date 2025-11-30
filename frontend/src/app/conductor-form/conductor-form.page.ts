@@ -17,6 +17,8 @@ export class ConductorFormPage implements OnInit {
 
   conductorForm: FormGroup;
   capturedPhoto: string = "";
+  originalPhoto: string = "";
+
   isSubmitted: boolean = false;
 
   id?: number;          // si existe → editar, si no existe → crear
@@ -38,7 +40,7 @@ export class ConductorFormPage implements OnInit {
       password: ['', Validators.compose([Validators.required])],
       name: ['', Validators.compose([Validators.required])],
       surname: ['', Validators.compose([Validators.required])],
-      isAdmin: ['', Validators.compose([Validators.required])],
+      isAdmin: [0, Validators.compose([Validators.required])],
     });
   }
 
@@ -73,7 +75,8 @@ export class ConductorFormPage implements OnInit {
         isAdmin: conductor.isAdmin
       });
       if (conductor.filename) {
-        this.capturedPhoto = 'http://localhost:8080/images/' + conductor.filename;
+        this.originalPhoto = 'http://localhost:8080/images/' + conductor.filename;
+        this.capturedPhoto = this.originalPhoto;
       }
     });
   }
@@ -91,7 +94,7 @@ export class ConductorFormPage implements OnInit {
 
     let blob: Blob | null = null;
 
-    if (this.capturedPhoto) {
+    if (this.capturedPhoto && this.capturedPhoto!==this.originalPhoto) {
       const response = await fetch(this.capturedPhoto);
       blob = await response.blob();
     }

@@ -21,6 +21,7 @@ export class VehiculoFormPage implements OnInit {
 
   vehiculoForm: FormGroup;
   capturedPhoto: string = "";
+  originalPhoto: string = "";
   isSubmitted: boolean = false;
 
   id?: number;          // si existe → editar, si no existe → crear
@@ -78,7 +79,8 @@ export class VehiculoFormPage implements OnInit {
         anio: vehiculo.anio,
       });
       if (vehiculo.filename) {
-        this.capturedPhoto = 'http://localhost:8080/images/' + vehiculo.filename;
+        this.originalPhoto = 'http://localhost:8080/images/' + vehiculo.filename;
+        this.capturedPhoto = this.originalPhoto;
       }
     });
   }
@@ -96,7 +98,7 @@ export class VehiculoFormPage implements OnInit {
 
     let blob: Blob | null = null;
 
-    if (this.capturedPhoto) {
+    if (this.capturedPhoto && this.capturedPhoto!==this.originalPhoto) {
       const response = await fetch(this.capturedPhoto);
       blob = await response.blob();
     }

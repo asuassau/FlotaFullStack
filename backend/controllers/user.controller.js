@@ -1,10 +1,170 @@
 const db = require("../models");
 const User = db.user;
 const Op = db.Sequelize.Op;
-const utils = require("../utils");
-const  bcrypt  =  require('bcryptjs');
+//const utils = require("../utils");
+//const  bcrypt  =  require('bcryptjs');
 
 
+
+
+exports.create = (req, res) => {
+
+      if (!req.body.password ||!req.body.username) {
+    res.status(400).send({
+      message: "No puede estar vacío"
+    });
+    return;
+}
+
+const user = {
+    password: req.body.password,
+    name: req.body.name,
+    username: req.body.username,
+    isAdmin: req.body.isAdmin ? req.body.isAdmin : false,
+    surname:req.body.surname,
+    filename: req.file ? req.file.filename : ""
+  };
+
+ User.create(user)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "El usuario no se ha creado correctamente."
+      });
+    });
+};
+
+
+// Retrieve all Vehñiculos from the database.
+exports.findAll = (req, res) => {
+  User.findAll()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Ha ocurrido un error y no es posible mostrar los usuarios"
+      });
+    });
+};
+
+// Find a single Vehñiculos with an id
+exports.findOne = (req, res) => {
+  const id = req.params.id;
+
+  User.findByPk(id)
+    .then(data => {
+     if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `No se ha podido localizar el usuario con  id=${id} .`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al obtner el usuario con id= " + id
+      });
+    });
+
+};
+
+// Update a Vehículos by the id in the request
+exports.update = (req, res) =>  {
+  const id = req.params.id;
+
+  const data = {
+    password: req.body.password,
+    name: req.body.name,
+    username: req.body.username,
+    isAdmin: req.body.isAdmin ? req.body.isAdmin : false,
+    surname:req.body.surname,
+  };
+
+  if (req.file) {
+   data.filename = req.file.filename
+  }/*else {
+   data.filename=""
+  }*/
+
+
+  User.update(data, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "El usuario se ha actulizado correctamente"
+        });
+      } else {
+        res.send({
+          message: `No ha sido posible actulizar el usuario con  id=${id}. Es posible que no se encuentre o que haya algún campo vacío `
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error actualizando el vehículos con id=" + id
+      });
+    });
+};
+
+// Delete a Vehículos with the specified id in the request
+exports.delete = (req, res) =>  {
+  const id = req.params.id;
+
+  User.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "El usuario se ha eliminado correctamente!"
+        });
+      } else {
+        res.send({
+          message: `No ha sido posible eliminar el usuario con id=${id}. Es posible que no se encuentre!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "No ha sido posible eliminar el vehículo con id=" + id
+      });
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 exports.create = (req, res) => {
   //Validate request
   if (!req.body.password || !req.body.username) {
@@ -144,4 +304,4 @@ exports.update = (req, res) => {
          message: "Could not delete User with id=" + id
        });
      });
- };
+ };*/

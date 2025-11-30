@@ -6,7 +6,7 @@ module.exports = app => {
     var router = require("express").Router();
   
     // Create a new User
-    router.post("/",auth.isAuthenticated, upload.single('file'),users.create);
+    router.post("/",auth.isAuthenticated,upload.single('file'),users.create);
   
     // Retrieve all User
     router.get("/", auth.isAuthenticated, users.findAll);
