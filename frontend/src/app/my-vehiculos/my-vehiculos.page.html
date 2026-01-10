@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Flota</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let b of Vehiculos">
+      <ion-avatar slot="start">
+        <img *ngIf="b.filename" src="http://localhost:8080/images/{{b.filename}}" alt="image" />
+      </ion-avatar>
+      <ion-label>
+        <h1>{{b.matricula}}</h1>
+        <p>{{b.marca}}</p>
+        <p>{{b.modelo}}</p>
+        <p>{{b.anio}}</p>
+      </ion-label>
+      <ion-button expand="block" (click)="gotoUpdateVehiculos(b.id)">Actualizar</ion-button>
+      <ion-button expand="block" (click)="gotoEraserVehiculos(b.id)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addVehiculo()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

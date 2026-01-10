@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Ficha de Conductor</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Ficha de Conductor</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="6">
+        <ion-img class="photo-frame" *ngIf="capturedPhoto" [src]="capturedPhoto" (click)="takePhoto()"></ion-img>
+        <ion-img class="photo-frame" *ngIf="!capturedPhoto" src="../../assets/No-Image-Placeholder.svg"
+          (click)="takePhoto()"></ion-img>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button color="primary" fill="outline" (click)="takePhoto()">
+          <ion-icon slot="start" name="camera-outline"></ion-icon>
+          Take a photo
+        </ion-button>
+        <ion-button color="primary" fill="outline" (click)="pickImage()">
+          <ion-icon slot="start" name="image-outline"></ion-icon>
+          Pick an image
+        </ion-button>
+        <ion-button color="danger" fill="outline" (click)="discardImage()">
+          <ion-icon slot="start" name="aperture"></ion-icon>
+          Discard image
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+  <form [formGroup]="conductorForm" (ngSubmit)="guardar()">
+
+    <ion-item>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input formControlName="name" type="text"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="getFormControl('name')?.hasError('required') && getFormControl('name')?.touched">
+      La usuario es obligatorio
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Apellidos</ion-label>
+      <ion-input formControlName="surname" type="text"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input formControlName="username" type="text"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input formControlName="password" type="password"></ion-input>
+    </ion-item>
+
+
+
+    <ion-item>
+      <ion-label position="floating">Administrador</ion-label>
+      <ion-checkbox [checked]="conductorForm.value.isAdmin == 1"
+        (ionChange)="conductorForm.patchValue({ isAdmin: $event.detail.checked ? 1 : 0 })">
+      </ion-checkbox>
+    </ion-item>
+
+    <!-- Botón de Enviar -->
+    <ion-button expand="full" type="submit" [disabled]="!conductorForm.valid">Guardar</ion-button>
+
+  </form>
+
+
+</ion-content>

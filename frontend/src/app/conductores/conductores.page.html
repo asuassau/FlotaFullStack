@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Conductores</ion-title>
+     <ion-buttons slot="end">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let c of Conductores">
+      <ion-avatar slot="start">
+        <img *ngIf="c.filename" src="http://localhost:8080/images/{{c.filename}}" alt="image" />
+      </ion-avatar>
+      <ion-label>
+        <h1>{{c.name}}</h1>
+        <p>{{c.apellidos}}</p>
+      </ion-label>
+      <ion-button expand="block" (click)="gotoUpdateConductores(c.id)">Actualizar</ion-button>
+      <ion-button expand="block" (click)="gotoEraserConductores(c.id)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addConductores()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
