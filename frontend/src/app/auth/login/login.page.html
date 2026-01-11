@@ -26,21 +26,14 @@
           </div>
           <div class="ion-text-center">
             <ion-item>
-              <ion-input name="email" type="email" placeholder="your@email.com" ngModel required></ion-input>
+              <ion-input name="user" type="text" placeholder="Usuario" ngModel required></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="password" type="password" placeholder="Password" ngModel required></ion-input>
+              <ion-input name="password" type="password" placeholder="Contraseña" ngModel required></ion-input>
             </ion-item>
           </div>
           <div class="ion-text-center">
             <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <div class="ion-text-center">
-            If you don't have an account, please <a routerLink='/register'>register</a> first!
           </div>
         </ion-col>
       </ion-row>

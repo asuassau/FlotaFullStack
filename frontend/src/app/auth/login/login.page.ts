@@ -25,11 +25,10 @@ export class LoginPage implements OnInit {
 
   login(form: NgForm) {
     let user: User = {
-      // id: null,
-      username: form.value.email,
+    
+      username: form.value.user,
       password: form.value.password,
-      // name: null,
-      // isAdmin: null
+    
     };
     this.authService.login(user).subscribe({
       next: (res) => {
