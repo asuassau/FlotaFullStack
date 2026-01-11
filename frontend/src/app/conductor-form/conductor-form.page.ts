@@ -24,6 +24,8 @@ export class ConductorFormPage implements OnInit {
   id?: number;          // si existe → editar, si no existe → crear
   isEdit = false;
 
+  currentUser: any = null;
+  isAdmin = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -45,8 +47,11 @@ export class ConductorFormPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
+
+    await this.storage.create();
+    await this.loadCurrentUser();
 
     const param = this.activatedRoute.snapshot.paramMap.get('id');
     if (param) {
@@ -57,6 +62,20 @@ export class ConductorFormPage implements OnInit {
   }
 
   ionViewWillEnter() {
+  }
+
+
+  private async loadCurrentUser() {
+    this.currentUser = await this.storage.get('user');
+
+    // si currentUser no existe aún, dejamos todo seguro
+    if (!this.currentUser) {
+      this.isAdmin = false;
+      return;
+    }
+
+    // normaliza: si viene 1/0 o true/false
+    this.isAdmin = this.currentUser.isAdmin == 1 || this.currentUser.isAdmin === true;
   }
 
   goBack() {
@@ -70,7 +89,7 @@ export class ConductorFormPage implements OnInit {
     this.conductorService.getById(id, token).subscribe((conductor: any) => {
       this.conductorForm.patchValue({
         username: conductor.username,
-       /* password: conductor.password,*/
+        /* password: conductor.password,*/
         name: conductor.name,
         surname: conductor.surname,
         isAdmin: conductor.isAdmin
@@ -95,7 +114,7 @@ export class ConductorFormPage implements OnInit {
 
     let blob: Blob | null = null;
 
-    if (this.capturedPhoto && this.capturedPhoto!==this.originalPhoto) {
+    if (this.capturedPhoto && this.capturedPhoto !== this.originalPhoto) {
       const response = await fetch(this.capturedPhoto);
       blob = await response.blob();
     }

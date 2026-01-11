@@ -15,6 +15,8 @@ export class MyVehiculosPage implements OnInit {
 
 
   Vehiculos: any = []
+  currentUser: any = null;
+  isAdmin = false;
 
 
   constructor(
@@ -23,8 +25,9 @@ export class MyVehiculosPage implements OnInit {
     private storage: Storage,
     private location: Location) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    await this.storage.create();
+    await this.loadCurrentUser();
     this.getAllVehiculos();
   }
 
@@ -34,8 +37,22 @@ export class MyVehiculosPage implements OnInit {
 
   }
 
+
+   private async loadCurrentUser() {
+    this.currentUser = await this.storage.get('user');
+
+    // si currentUser no existe aún, dejamos todo seguro
+    if (!this.currentUser) {
+      this.isAdmin = false;
+      return;
+    }
+
+    // normaliza: si viene 1/0 o true/false
+    this.isAdmin = this.currentUser.isAdmin == 1 || this.currentUser.isAdmin === true;
+  }
+
   goBack() {
-    this.location.back();
+    this.router.navigateByUrl('/home');
   }
   async getAllVehiculos() {
 

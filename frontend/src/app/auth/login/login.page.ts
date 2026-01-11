@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { User } from '../user';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-login',
@@ -17,25 +18,31 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private storage: Storage
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+     await this.storage.create();
   }
 
   login(form: NgForm) {
     let user: User = {
-    
+
       username: form.value.user,
       password: form.value.password,
-    
+
     };
     this.authService.login(user).subscribe({
-      next: (res) => {
+      next:async (res) => {
         if (!res.access_token) {
           this.presentAlert();
           return;
         }
+
+      //  await this.storage.set('token', res.access_token);
+        await this.storage.set('user', res.user); // guarda objeto directamente
+
         this.router.navigateByUrl('/home');
         form.reset();
       },

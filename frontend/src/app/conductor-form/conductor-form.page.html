@@ -93,7 +93,7 @@
       </ion-item>
 
       <!-- Admin checkbox -->
-      <ion-item class="input-item checkbox-item" lines="none">
+      <ion-item class="input-item checkbox-item" *ngIf="isAdmin" lines="none">
         <ion-label>Administrador</ion-label>
         <ion-checkbox
           slot="end"

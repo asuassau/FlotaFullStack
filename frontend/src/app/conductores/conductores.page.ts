@@ -14,7 +14,8 @@ import { Location } from '@angular/common';
 export class ConductoresPage implements OnInit {
 
   Conductores: any = []
-
+  currentUser: any = null;
+  isAdmin = false;
 
   constructor(
     private conductorService: ConductorService,
@@ -22,21 +23,41 @@ export class ConductoresPage implements OnInit {
     private storage: Storage,
     private location: Location) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    await this.storage.create();
+    await this.loadCurrentUser();
     this.getAllConductores();
   }
 
-  ionViewWillEnter() {
-
+  async ionViewWillEnter() {
+    await this.storage.create();
+    await this.loadCurrentUser();
     this.getAllConductores();
 
   }
+
+  private async loadCurrentUser() {
+    this.currentUser = await this.storage.get('user');
+
+    // si currentUser no existe aún, dejamos todo seguro
+    if (!this.currentUser) {
+      this.isAdmin = false;
+      return;
+    }
+
+    // normaliza: si viene 1/0 o true/false
+    this.isAdmin = this.currentUser.isAdmin == 1 || this.currentUser.isAdmin === true;
+  }
+
+
+  canEdit(id: number): boolean {
+    return this.isAdmin || this.currentUser?.id === id;
+  }
+
 
   goBack() {
-    this.location.back();
+    this.router.navigateByUrl('/home');
   }
-
 
 
   async getAllConductores() {
