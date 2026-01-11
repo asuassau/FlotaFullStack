@@ -7,22 +7,22 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new User
+    // Crea un nuevo usuario
     router.post("/",auth.isAuthenticated,upload.single('file'),users.create);
   
-    // Retrieve all User
+    // Muestra todos los usuarios
     router.get("/", auth.isAuthenticated, users.findAll);
     
-    // Retrieve a single User with id
+    // Localiza un usuario por la id
     router.get("/:id", auth.isAuthenticated, users.findOne);
   
-    // Update a User with id
+    // Actualiza un usuario por la id
     router.put("/:id", auth.isAuthenticated, upload.single('file'), users.update);
 
-    // Sign in
+    // Autentificación de usuario
     router.post("/signin", auth.signin);
   
-    // Delete a User with id
+    // Borra un usuario por la id
     router.delete("/:id",auth.isAuthenticated, users.delete);
   
   

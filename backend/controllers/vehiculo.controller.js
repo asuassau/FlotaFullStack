@@ -3,7 +3,7 @@ const db = require("../models");
 const Vehiculo = db.vehiculo;
 
 //Se crea objeto con operaciones de Sequelize
-const Op = db.Sequelize.Op;
+//const Op = db.Sequelize.Op;
 
 // Crea un nuevo vehículo 
 exports.create = (req, res) => {

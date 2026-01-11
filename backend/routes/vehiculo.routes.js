@@ -8,20 +8,20 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  // Create a new Vehiculo
+  // Crea un nuevo vehículo
   router.post("/",auth.isAuthenticated, upload.single('file'),vehiculos.create);
-  //router.post("/", vehiculos.create);
+  
 
-  // Retrieve all Vehiculo
+  // Muestra todos los vehículos 
   router.get("/",auth.isAuthenticated, vehiculos.findAll);
 
-  // Retrieve a single Vehiculo with id
+  // Obtiene un vehículo por id
   router.get("/:id",auth.isAuthenticated, vehiculos.findOne);
 
-  // Update a Vehiculo with id
+  // Actualiza un vehículo por id
   router.put("/:id",auth.isAuthenticated, upload.single('file'), vehiculos.update);
 
-  // Delete a Vehiculo with id
+  // Borra un vehículo por id 
   router.delete("/:id", auth.isAuthenticated,vehiculos.delete);
 
   app.use('/api/vehiculos', router);
