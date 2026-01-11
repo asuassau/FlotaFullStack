@@ -33,24 +33,24 @@ export class LoginPage implements OnInit {
     this.authService.login(user).subscribe({
       next: (res) => {
         if (!res.access_token) {
-          this.presentAlert("invalid credentials");
+          this.presentAlert();
           return;
         }
         this.router.navigateByUrl('/home');
         form.reset();
       },
       error: err => {
-        this.presentAlert("Error");
+        this.presentAlert();
       }
     });
   }
 
-  async presentAlert(message: string) {
+  async presentAlert() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Error',
-      subHeader: message,
-      message: 'Could not login. Try again.',
+      header: 'No se ha realizado el login correctamente',
+      //subHeader: message,
+      message: 'Revise los datos introducidos',
       buttons: ['OK']
     });
 

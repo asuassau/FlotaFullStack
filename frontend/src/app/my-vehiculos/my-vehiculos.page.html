@@ -1,32 +1,56 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Flota</ion-title>
+  <ion-toolbar class="app-toolbar">
+    <ion-title class="page-title">Flota</ion-title>
+
     <ion-buttons slot="end">
-      <ion-button (click)="goBack()">
+      <ion-button class="icon-btn" (click)="goBack()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item *ngFor="let b of Vehiculos">
-      <ion-avatar slot="start">
-        <img *ngIf="b.filename" src="http://localhost:8080/images/{{b.filename}}" alt="image" />
-      </ion-avatar>
-      <ion-label>
-        <h1>{{b.matricula}}</h1>
-        <p>{{b.marca}}</p>
-        <p>{{b.modelo}}</p>
-        <p>{{b.anio}}</p>
-      </ion-label>
-      <ion-button expand="block" (click)="gotoUpdateVehiculos(b.id)">Actualizar</ion-button>
-      <ion-button expand="block" (click)="gotoEraserVehiculos(b.id)">Eliminar</ion-button>
-    </ion-item>
-  </ion-list>
+<ion-content [fullscreen]="true" class="page-bg">
+  <div class="page-wrap">
+    <ion-list class="glass-list">
+      <ion-item class="fleet-item" *ngFor="let b of Vehiculos" lines="none">
+        <ion-avatar class="fleet-avatar" slot="start">
+          <img
+            *ngIf="b.filename; else placeholder"
+            src="http://localhost:8080/images/{{b.filename}}"
+            alt="image"
+          />
+          <ng-template #placeholder>
+            <div class="avatar-placeholder">
+              <ion-icon name="car-outline"></ion-icon>
+            </div>
+          </ng-template>
+        </ion-avatar>
+
+        <ion-label class="fleet-label">
+          <h1 class="fleet-title">{{b.matricula}}</h1>
+
+          <div class="fleet-meta">
+            <span class="meta-pill">{{b.marca}}</span>
+            <span class="meta-pill">{{b.modelo}}</span>
+            <span class="meta-pill muted">{{b.anio}}</span>
+          </div>
+        </ion-label>
+
+        <div class="actions">
+          <ion-button class="action-btn" fill="outline" size="small" (click)="gotoUpdateVehiculos(b.id)">
+            Actualizar
+          </ion-button>
+          <ion-button class="action-btn danger" fill="outline" size="small" (click)="gotoEraserVehiculos(b.id)">
+            Eliminar
+          </ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addVehiculo()">
+    <ion-fab-button class="fab" (click)="addVehiculo()">
       <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>

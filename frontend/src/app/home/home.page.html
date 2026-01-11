@@ -1,20 +1,55 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="app-toolbar">
     <ion-title>
-      Gestion de flota 
+      <div class="title-container">
+        <ion-img src="assets/icon/flota.png" class="title-icon"></ion-img>
+        <span class="title-text">Gestión de flota</span>
+      </div>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="page-bg">
+  <div class="home-wrap">
 
-  <ion-button expand="block" (click)="gotoMyVehiculos()"> Gestionar Vehiculos </ion-button>
-  <ion-button expand="block" (click)="gotoConductores()">Gestionar Conductores </ion-button>
- <!--  <ion-button expand="block" (click)="gotoVehiculoForm()">Asignación de Conductores </ion-button>
-  <ion-button expand="block" (click)="gotoVehiculoForm()">Asignación de Rutas </ion-button>-->
+    <div class="hero glass-card">
+      <div class="hero-badge">
+        <ion-img src="assets/icon/flota.png" class="hero-icon"></ion-img>
+      </div>
+
+      <h1 class="hero-title">MyFlota</h1>
+      <p class="hero-subtitle">Selecciona qué quieres gestionar</p>
+
+      <div class="cta-grid">
+        <button class="cta-card" (click)="gotoMyVehiculos()">
+          <div class="cta-left">
+            <div class="cta-icon">
+              <ion-icon name="car-outline"></ion-icon>
+            </div>
+            <div class="cta-text">
+              <div class="cta-title">Vehículos</div>
+              <div class="cta-desc">Altas, bajas y edición</div>
+            </div>
+          </div>
+          <ion-icon class="cta-arrow" name="chevron-forward-outline"></ion-icon>
+        </button>
+
+        <button class="cta-card" (click)="gotoConductores()">
+          <div class="cta-left">
+            <div class="cta-icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
+            <div class="cta-text">
+              <div class="cta-title">Conductores</div>
+              <div class="cta-desc">Gestión de usuarios y roles</div>
+            </div>
+          </div>
+          <ion-icon class="cta-arrow" name="chevron-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+    
+    </div>
+
+  </div>
 </ion-content>

@@ -1,79 +1,100 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Ficha de Vehículo</ion-title>
+  <ion-toolbar class="app-toolbar">
+    <ion-title class="page-title">Ficha de Vehículo</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="goBack()">
+      <ion-button class="icon-btn" (click)="goBack()">
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Formulario de vehículo</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <ion-grid>
-    <ion-row class="ion-align-items-center">
-      <ion-col size="6">
-        <ion-img class="photo-frame" *ngIf="capturedPhoto" [src]="capturedPhoto" (click)="takePhoto()"></ion-img>
-        <ion-img class="photo-frame" *ngIf="!capturedPhoto" src="../../assets/No-Image-Placeholder.svg"
-          (click)="takePhoto()"></ion-img>
-      </ion-col>
-      <ion-col size="6">
-        <ion-button color="primary" fill="outline" (click)="takePhoto()">
-          <ion-icon slot="start" name="camera-outline"></ion-icon>
-          Take a photo
-        </ion-button>
-        <ion-button color="primary" fill="outline" (click)="pickImage()">
-          <ion-icon slot="start" name="image-outline"></ion-icon>
-          Pick an image
-        </ion-button>
-        <ion-button color="danger" fill="outline" (click)="discardImage()">
-          <ion-icon slot="start" name="aperture"></ion-icon>
-          Discard image
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-content [fullscreen]="true" class="page-bg">
+  <div class="page-wrap">
 
+    <div class="glass-card">
+      <div class="card-head">
+        <h1 class="card-title">Formulario de vehículo</h1>
+        <p class="card-subtitle">Actualiza los datos y la imagen del vehículo</p>
+      </div>
 
+      <!-- Bloque foto + acciones -->
+      <ion-grid class="photo-grid">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" size-md="6">
+            <div class="photo-box" (click)="takePhoto()">
+              <ion-img
+                *ngIf="capturedPhoto"
+                class="photo-frame"
+                [src]="capturedPhoto">
+              </ion-img>
 
-  <form [formGroup]="vehiculoForm" (ngSubmit)="guardar()">
+              <ion-img
+                *ngIf="!capturedPhoto"
+                class="photo-frame placeholder"
+                src="../../assets/No-Image-Placeholder.svg">
+              </ion-img>
 
-    <ion-item>
-      <ion-label position="floating">Matricula</ion-label>
-      <ion-input formControlName="matricula" type="text"></ion-input>
-    </ion-item>
-    <ion-note color="danger"
-      *ngIf="getFormControl('matricula')?.hasError('required') && getFormControl('matricula')?.touched">
-      La matrícula es obligatoria
-    </ion-note>
+              <div class="photo-hint">
+                <ion-icon name="camera-outline"></ion-icon>
+                <span>Toca para cambiar</span>
+              </div>
+            </div>
+          </ion-col>
 
-    <ion-item>
-      <ion-label position="floating">Marca</ion-label>
-      <ion-input formControlName="marca" type="text"></ion-input>
-    </ion-item>
+          <ion-col size="12" size-md="6">
+            <div class="photo-actions">
+              <ion-button class="action-btn" fill="outline" (click)="takePhoto()">
+                <ion-icon slot="start" name="camera-outline"></ion-icon>
+                Take a photo
+              </ion-button>
 
+              <ion-button class="action-btn" fill="outline" (click)="pickImage()">
+                <ion-icon slot="start" name="image-outline"></ion-icon>
+                Pick an image
+              </ion-button>
 
-    <ion-item>
-      <ion-label position="floating">Modelo</ion-label>
-      <ion-input formControlName="modelo" type="text"></ion-input>
-    </ion-item>
+              <ion-button class="action-btn danger" fill="outline" (click)="discardImage()">
+                <ion-icon slot="start" name="aperture"></ion-icon>
+                Discard image
+              </ion-button>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
 
+    <!-- Formulario -->
+    <form class="glass-card form-card" [formGroup]="vehiculoForm" (ngSubmit)="guardar()">
+      <ion-item class="input-item" lines="none">
+        <ion-label position="floating">Matrícula</ion-label>
+        <ion-input formControlName="matricula" type="text"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Año</ion-label>
-      <ion-input formControlName="anio" type="text"></ion-input>
-    </ion-item>
+      <ion-note class="error-note"
+        *ngIf="getFormControl('matricula')?.hasError('required') && getFormControl('matricula')?.touched">
+        La matrícula es obligatoria
+      </ion-note>
 
+      <ion-item class="input-item" lines="none">
+        <ion-label position="floating">Marca</ion-label>
+        <ion-input formControlName="marca" type="text"></ion-input>
+      </ion-item>
 
-    <!-- Botón de Enviar -->
-    <ion-button expand="full" type="submit" [disabled]="!vehiculoForm.valid">Guardar</ion-button>
+      <ion-item class="input-item" lines="none">
+        <ion-label position="floating">Modelo</ion-label>
+        <ion-input formControlName="modelo" type="text"></ion-input>
+      </ion-item>
 
-  </form>
+      <ion-item class="input-item" lines="none">
+        <ion-label position="floating">Año</ion-label>
+        <ion-input formControlName="anio" type="text"></ion-input>
+      </ion-item>
 
+      <ion-button class="primary-btn" expand="block" type="submit" [disabled]="!vehiculoForm.valid">
+        Guardar
+      </ion-button>
+    </form>
 
+  </div>
 </ion-content>

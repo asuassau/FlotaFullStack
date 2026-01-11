@@ -1,42 +1,42 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="app-toolbar">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Login</ion-title>
+
+    <ion-title>
+      <div class="title-container">
+        <ion-img src="assets/icon/flota.png" class="title-icon"></ion-img>
+        <span class="title-text">MyFlota</span>
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title size="large">Login</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="login-bg">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-head">
+        <div class="brand-badge">
+          <ion-img src="assets/icon/flota.png" class="brand-icon"></ion-img>
+        </div>
+        <h1 class="login-title">Iniciar sesión</h1>
+        <p class="login-subtitle">Accede a tu flota de forma segura</p>
+      </div>
 
-  <form #form="ngForm" (ngSubmit)="login(form)">
-    <ion-grid>
-      <ion-row color="primary" class="ion-justify-content-center">
-        <ion-col size-md="6" size-lg="5" size-xs="12">
-          <div>
-            <h3>Login</h3>
-          </div>
-          <div class="ion-text-center">
-            <ion-item>
-              <ion-input name="user" type="text" placeholder="Usuario" ngModel required></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-input name="password" type="password" placeholder="Contraseña" ngModel required></ion-input>
-            </ion-item>
-          </div>
-          <div class="ion-text-center">
-            <ion-button size="large" type="submit" [disabled]="form.invalid" expand="block">Login</ion-button>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
+      <form #form="ngForm" (ngSubmit)="login(form)" class="login-form">
+        <ion-item class="input-item" lines="none">
+          <ion-input name="user" type="text" placeholder="Usuario" ngModel required></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item" lines="none">
+          <ion-input name="password" type="password" placeholder="Contraseña" ngModel required></ion-input>
+        </ion-item>
+
+        <ion-button class="login-btn" size="large" type="submit" [disabled]="form.invalid" expand="block">
+          Login
+        </ion-button>
+      </form>
+    </div>
+  </div>
 </ion-content>
