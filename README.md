@@ -1,32 +1,32 @@
-# Project Title
+# Proyecto FullStack- Gestión de flotas. 
 
-Aplicación de Gestión de Vehículos (Frontend Ionic + Backend Node.js)
+Esta es una aplicación diseñada para la  Gestión de Flotas  
 
-One Paragraph of the project description
 
-Esta aplicación permite gestionar vehículos mediante un CRUD completo (Crear, Leer, Actualizar y Eliminar). El proyecto está dividido en un backend desarrollado con Node.js, Express y Sequelize conectado a una base de datos MySQL, y un frontend construido con Ionic + Angular. Permite visualizar una lista de vehículos, añadir nuevos, editar registros existentes y eliminarlos. Esta aplicación se basa en un proyecto previo de ejemplo para bicicletas, que ha sido adaptado para gestionar vehículos.
+Esta aplicación permite gestionar vehículos y conductores  mediante un CRUD completo (Crear, Leer, Actualizar y Eliminar). El proyecto está dividido en un backend desarrollado con Node.js, Express y Sequelize conectado a una base de datos MySQL, y un frontend construido con Ionic + Angular. Permite visualizar una lista de vehículos y conductores, añadir nuevos, editar registros existentes y eliminarlos. Esta aplicación se basa en un proyecto previo de ejemplo para bicicletas, que ha sido adaptado para gestionar de flotas.
 
 ## Getting Started
 
+Para poder ejecturar el programa lo primero que debe hacer es descargar el codigo del Github del siguiente enlace: 
 
-Estas instrucciones te permitirán obtener una copia del proyecto funcionando en tu máquina local para propósitos de desarrollo y pruebas. Consulta la sección de Deployment para información sobre la puesta en producción.
+https://github.com/asuassau/FlotaFullStack
+
+
 
 ## Prerequisites
 
-Requisitos necesarios para ejecutar el software y las herramientas relacionadas:
-
-Node.js
-
-MySQL
-
-Ionic CLI
-
-Angular CLI
+- Node.js 
+- npm
+- MySQL
+- MySQL Workbench
+- Visual Studio Code
+- Ionic CLI
+- Angular CLI
 
 ## Installing
 
 
-A continuación se detallan los pasos para configurar el entorno de desarrollo.
+A continuación se detallan los pasos para configurar el entorno de desarrollo y arrancar el funcionamiento del programa.
 
 1. Clonar el repositorio
 
@@ -35,21 +35,17 @@ git clone https://github.com/asuassau/FlotaFullStack
 
 2. Instalar dependencias del backend
 
+Ejecutar en la consola 
+
 cd backend
 npm install
 
 3. Configurar la base de datos
 
-Crear una base de datos MySQL (por ejemplo: vehiculos_db)
-Editar app/config/db.config.js con tus credenciales:
+Crear una base de datos MySQL Workbench
 
-module.exports = {
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "1234",
-  DB: "vehiculos_db",
-  dialect: "mysql"
-};
+* el proyecto en la zona del frontend prodras apreciar que existe un archivo .env, en el estan los datos usados para la base de datos durante su desarrollo , en el caso de crear una base de datos alternativa tendrás que actualizar la información en este .env para que el programa pueda interactuar correctamente con la base de datos que has creado.  
+
 
 4. Iniciar el backend
 node server.js
@@ -58,52 +54,39 @@ El backend estará disponible en:
 http://localhost:8080/api/vehiculos
 
 5. Instalar dependencias del frontend
-bash
-Copiar código
+Ejecutar en la consola
+
 cd frontend
 npm install
 
 6. Iniciar el frontend
-nginx
-Copiar código
+Ejecutar en la consola 
+
+cd frontend/src/app
 ionic serve
+
 La aplicación se abrirá automáticamente en:
 
 http://localhost:8100
 
-Ejemplo de creación de vehículo:
 
-POST http://localhost:8080/api/vehiculos
-{
-  "brand": "Toyota",
-  "model": "Corolla"
+## API Testing (Postman)
 
-}
+El proyecto incluye una colección de Postman para probar los endpoints del backend.
 
-*Nota : esto se encuentra aún en desarrollo y el ejemplo de como añadir un vehículo puede cambiar
+Ruta:
 
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://alejandrojesussuarezsaavedra-3865950.postman.co/collection/48544004-0b56854b-0a30-4deb-9f27-8ee9c144ce9a?source=rip_markdown)
 
+La colección incluye:
+- CRUD de vehículos
+- CRUD de usuarios
 
-## Running the tests
+## Tests
 
-De momento no se encuentra implmetado ningún tipo de sistema de testeo
+Actualmente el proyecto no incluye pruebas automatizadas.
+Las pruebas de la API se han realizado manualmente mediante Postman.
 
-### Sample Tests
-
-******************
-### Style test
-******************
-
-## Deployment
-
-******************
-## Built With
-
-******************
-
-## Contributing
-
-******************
 
 ## Versioning
 
@@ -112,12 +95,11 @@ De momento no se encuentra implmetado ningún tipo de sistema de testeo
 ## Authors
 
 Alejandro Jesús Suárez Saavedra 
-https://github.com/asuassau
-
 
 ## License
 
-******************
+El programa se ha desarrollado como un ejercisio educativo por lo que no tiene ningun tipo de licencia y su objetivo es que se pueda acceder a la información libremente 
+
 ## Acknowledgments
 
   Al proyecto original de bicicletas que sirvió como base
