@@ -12,6 +12,10 @@ Para poder ejecturar el programa lo primero que debe hacer es descargar el codig
 https://github.com/asuassau/FlotaFullStack
 
 
+Nota:
+El archivo .env se ha incluido en el repositorio de GitHub únicamente con fines educativos y para simplificar la ejecución del proyecto, a pesar de que no es una práctica segura en entornos reales.
+
+Dentro del archivo .env existe la posibilidad de reiniciar la base de datos, generando un usuario administrador genérico (alejandro), modificando el valor de la variable DB_FORCE_SYNC (true / false). Dentro de el también esta la contraseña del usuario genérico (DEFAULT_ADMIN_PASSWORD)
 
 ## Prerequisites
 

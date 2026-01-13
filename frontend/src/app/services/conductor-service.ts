@@ -8,7 +8,7 @@ export class ConductorService {
   endpoint = 'http://localhost:8080/api/users';
 
   constructor(private httpClient: HttpClient) {
-    
+
   }
 
   // === Nuevo método para las opciones con token ===
@@ -59,6 +59,8 @@ export class ConductorService {
     formData.append('name', conductor.name);
     formData.append('surname', conductor.surname);
     formData.append('isAdmin', conductor.isAdmin);
+
+    formData.append('removeImage', String(conductor.removeImage));
 
 
     if (file) {

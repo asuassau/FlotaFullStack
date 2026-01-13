@@ -5,7 +5,7 @@ require('dotenv').config();
 //Se importa express (de node module), framework para crear servidores web y APIs.
 const express = require("express");
 //Se importa cors (middleware que configura qué orígenes pueden realizar peticiones a mi backend desde el navegador)
-const cors = require ("cors");
+const cors = require("cors");
 
 //Se importa jsonwebtoken (librería para crear y verificar tokens JWT)
 const jwt = require('jsonwebtoken');
@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 var corsOptions = {
-origin:"http://localhost:8100"
+  origin: "http://localhost:8100"
 };
 // Se indica que solo se admiten peticiones de este frontend
 app.use(cors(corsOptions));
@@ -39,11 +39,36 @@ app.use(express.urlencoded({ extended: true }));
 //Se importa el modelo 
 const db = require("./models");
 
-// Se inicializa el modelo (si se decomenta force:true se reinicia el modelo con la correspondiente perdida de información )
-db.sequelize.sync({/* force: true*/ }).then(() => {
-  console.log("Drop and re-sync db.");
-});
+//Se crea un objeto User y se importa Bcrypt para la creación de un usuario basico en el caso de reinicio de la base de datos. 
+const User = db.user;
+const bcrypt = require('bcryptjs');
 
+//Se pone el control de si se reinicia con el usuario administrado y que constraseña usa en el .env
+const FORCE_SYNC = process.env.DB_FORCE_SYNC ==='true';
+const adminPass = process.env.DEFAULT_ADMIN_PASSWORD;
+
+// Se inicializa el modelo (si se decomenta force:true se reinicia el modelo con la correspondiente perdida de información )
+db.sequelize.sync({ force: FORCE_SYNC}).then(async () => {
+  console.log("Drop and re-sync db.");
+
+  //Se crea un usuario administrador basico en el caso vaciar la base de datos. 
+  if (FORCE_SYNC) {
+    const hashedPassword = await bcrypt.hash(adminPass, 10);
+
+    await User.findOrCreate({
+      where: { username: 'alejandro' },
+      defaults: {
+        name: 'alejandro',
+        username: 'alejandro',
+        password: hashedPassword,
+        surname: 'alejandro',
+        isAdmin: true
+      }
+    });
+
+    console.log("Usuario administrador creado");
+  }
+});
 
 // Middleware global que inspecciona el header Authorization y gestiona autenticación Basic y JWT
 
@@ -73,8 +98,8 @@ app.use((req, res, next) => {
     const token = authHeader.replace('Bearer ', '');
 
     jwt.verify(token, process.env.JWT_SECRET, function (err, user) {
-     
-     //corta el pipeline si hay un error 
+
+      //corta el pipeline si hay un error 
       if (err) {
         return res.status(401).json({
           error: true,

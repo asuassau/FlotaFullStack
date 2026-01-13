@@ -8,14 +8,14 @@ const Vehiculo = db.vehiculo;
 // Crea un nuevo vehículo 
 exports.create = (req, res) => {
 
-      if (!req.body.matricula) {
+  if (!req.body.matricula) {
     res.status(400).send({
       message: "No puede estar vacío"
     });
     return;
-}
+  }
 
-const vehiculo = {
+  const vehiculo = {
     matricula: req.body.matricula,
     marca: req.body.marca,
     modelo: req.body.modelo,
@@ -23,7 +23,7 @@ const vehiculo = {
     filename: req.file ? req.file.filename : ""
   };
 
- Vehiculo.create(vehiculo)
+  Vehiculo.create(vehiculo)
     .then(data => {
       res.send(data);
     })
@@ -56,7 +56,7 @@ exports.findOne = (req, res) => {
 
   Vehiculo.findByPk(id)
     .then(data => {
-     if (data) {
+      if (data) {
         res.send(data);
       } else {
         res.status(404).send({
@@ -73,8 +73,14 @@ exports.findOne = (req, res) => {
 };
 
 // Actualiza un vehículo concreto. 
-exports.update = (req, res) =>  {
+exports.update = (req, res) => {
   const id = req.params.id;
+
+  const removeImage =
+    req.body.removeImage === true ||
+    req.body.removeImage === 'true' ||
+    req.body.removeImage === '1' ||
+    req.body.removeImage === 1;
 
   const data = {
     matricula: req.body.matricula,
@@ -84,10 +90,12 @@ exports.update = (req, res) =>  {
   };
 
   if (req.file) {
-   data.filename = req.file.filename
-  }/*else {
-   data.filename=""
-  }*/
+    data.filename = req.file.filename
+  }
+
+  if (removeImage) {
+    data.filename = null;
+  }
 
   Vehiculo.update(data, {
     where: { id: id }
@@ -111,7 +119,7 @@ exports.update = (req, res) =>  {
 };
 
 // Borra un vehículo concreto identificado por la id
-exports.delete = (req, res) =>  {
+exports.delete = (req, res) => {
   const id = req.params.id;
 
   Vehiculo.destroy({

@@ -13,7 +13,7 @@ export class VehiculoService {
     
   }
 
-  // === Nuevo método para las opciones con token ===
+  // Metodo para el token
   private getOptions(token: string) {
     const bearerAccess = 'Bearer ' + token;
 
@@ -26,7 +26,8 @@ export class VehiculoService {
     return options;
   }
 
-  // === Métodos adaptados ===
+  
+//Envios a la api del backend
 
   getVehiculos(token: string) {
     const options = this.getOptions(token);
@@ -59,6 +60,8 @@ export class VehiculoService {
     formData.append('marca', vehiculo.marca);
     formData.append('modelo', vehiculo.modelo);
     formData.append('anio', vehiculo.anio);
+
+    formData.append('removeImage', String(vehiculo.removeImage));
 
     if (file) {
       formData.append('file', file);

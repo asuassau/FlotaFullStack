@@ -86,6 +86,11 @@ exports.findOne = (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
+     const removeImage =
+      req.body.removeImage === true ||
+      req.body.removeImage === 'true' ||
+      req.body.removeImage === '1' ||
+      req.body.removeImage === 1;
 
     const data = {
       name: req.body.name,
@@ -101,6 +106,10 @@ exports.update = async (req, res) => {
 
     if (req.file) {
       data.filename = req.file.filename;
+    }
+
+    if (removeImage){
+      data.filename=null;
     }
 
     const num = await User.update(data, { where: { id } });
