@@ -15,6 +15,8 @@ export class MyVehiculosPage implements OnInit {
 
 
   Vehiculos: any = []
+
+  // elementos para determinar si el usuario actual es admin
   currentUser: any = null;
   isAdmin = false;
 
@@ -26,6 +28,8 @@ export class MyVehiculosPage implements OnInit {
     private location: Location) { }
 
   async ngOnInit() {
+
+    // Se crea storage y se determina usuario en uso.
     await this.storage.create();
     await this.loadCurrentUser();
     this.getAllVehiculos();
@@ -38,6 +42,7 @@ export class MyVehiculosPage implements OnInit {
   }
 
 
+  // obtiene usuario el uso y comprueba si es admin. 
    private async loadCurrentUser() {
     this.currentUser = await this.storage.get('user');
 
@@ -51,9 +56,12 @@ export class MyVehiculosPage implements OnInit {
     this.isAdmin = this.currentUser.isAdmin == 1 || this.currentUser.isAdmin === true;
   }
 
+  //boton de navegación 
   goBack() {
     this.router.navigateByUrl('/home');
   }
+
+  //se cargan todos los vehículos
   async getAllVehiculos() {
 
     const token = await this.storage.get('token');
@@ -64,14 +72,18 @@ export class MyVehiculosPage implements OnInit {
     });
   }
 
+  // boton de añadir vehículos. 
   addVehiculo() {
     this.router.navigateByUrl("/vehiculo-form");
   }
 
+  // boton de actualizar vehículo 
   gotoUpdateVehiculos(id: any) {
 
     this.router.navigateByUrl(`/vehiculo-form/${id}`);
   }
+
+  //botón de borrar vehículo 
   async gotoEraserVehiculos(id: any) {
 
     const token = await this.storage.get('token');

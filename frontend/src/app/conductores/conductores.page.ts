@@ -14,6 +14,8 @@ import { Location } from '@angular/common';
 export class ConductoresPage implements OnInit {
 
   Conductores: any = []
+
+  //elementos para determinar el usuario en uso. 
   currentUser: any = null;
   isAdmin = false;
 
@@ -24,8 +26,11 @@ export class ConductoresPage implements OnInit {
     private location: Location) { }
 
   async ngOnInit() {
+
+    // Se crea storage y se determina usuario en uso.
     await this.storage.create();
     await this.loadCurrentUser();
+
     this.getAllConductores();
   }
 
@@ -35,11 +40,11 @@ export class ConductoresPage implements OnInit {
     this.getAllConductores();
 
   }
+  // obtiene usuario el uso y comprueba si es admin. 
 
   private async loadCurrentUser() {
     this.currentUser = await this.storage.get('user');
 
-    // si currentUser no existe aún, dejamos todo seguro
     if (!this.currentUser) {
       this.isAdmin = false;
       return;
@@ -49,17 +54,17 @@ export class ConductoresPage implements OnInit {
     this.isAdmin = this.currentUser.isAdmin == 1 || this.currentUser.isAdmin === true;
   }
 
-
+// indica si puede editar 
   canEdit(id: number): boolean {
     return this.isAdmin || this.currentUser?.id === id;
   }
 
-
+//boton de navegación 
   goBack() {
     this.router.navigateByUrl('/home');
   }
 
-
+//nuestra los conductores
   async getAllConductores() {
 
     const token = await this.storage.get('token');
@@ -70,14 +75,19 @@ export class ConductoresPage implements OnInit {
     });
   }
 
+  //boton de añadir conductores
   addConductores() {
     this.router.navigateByUrl("/conductor-form");
   }
 
+  //boton de actualizar conductores
   gotoUpdateConductores(id: any) {
 
     this.router.navigateByUrl(`/conductor-form/${id}`);
   }
+    
+  //boton de borrar  conductores
+
   async gotoEraserConductores(id: any) {
 
     const token = await this.storage.get('token');
